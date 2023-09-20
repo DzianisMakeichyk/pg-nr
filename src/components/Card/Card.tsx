@@ -35,7 +35,7 @@ export const CardComponent = ({ projectView }: CardComponentProps) => {
 		// Save
 		if (shiftKey) {
 			const { position, rotation } = projectView.renderState.camera;
-			let savedPositions = [...cameraPositions];
+			const savedPositions = [...cameraPositions];
 
 			const newCameraPositions = {
 				position: [...position],
