@@ -1,13 +1,13 @@
-import { View } from "@novorender/api";
+import { View } from '@novorender/api';
 
 export type CardComponentProps = {
-  projectView: View | null,
+	projectView: View | null;
 };
-  
+
 export type ShowNotificationProps = {
-  description: string,
-  message: string,
-  type?: MessageTypeProps,
+	description: string;
+	message: string;
+	type?: MessageTypeProps;
 };
 
 type MessageTypeProps = 'success' | 'info' | 'warning' | 'error';

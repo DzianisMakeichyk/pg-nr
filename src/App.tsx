@@ -1,10 +1,9 @@
-
-import { MainContainer } from "./containers";
+import { MainContainer } from './containers';
 
 export const App = () => {
-  return (
-    <>
-      <MainContainer />
-    </>
-  );
+	return (
+		<>
+			<MainContainer />
+		</>
+	);
 };

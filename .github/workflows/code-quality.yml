@@ -64,7 +64,7 @@ jobs:
             - name: Perform CodeQL Analysis
               uses: github/codeql-action/analyze@v2
 
-      code_issues:
+    code_issues:
         runs-on: ubuntu-latest
         name: 👮‍♂️ Code issues
         steps:

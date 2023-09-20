@@ -1,4 +1,4 @@
 export type CameraPositionTypes = {
-  position: number[];
-  rotation: number[];
+	position: number[];
+	rotation: number[];
 };
