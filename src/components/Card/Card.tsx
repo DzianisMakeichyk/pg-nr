@@ -102,6 +102,7 @@ export const CardComponent = ({ projectView }: CardComponentProps) => {
 			result.length !== 0
 				? projectView.modifyRenderState({
 						highlights: renderStateHighlightGroups,
+						/* eslint-disable no-mixed-spaces-and-tabs */
 				  })
 				: null;
 		} catch (error) {

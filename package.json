@@ -10,7 +10,8 @@
 		"prettier:check": "prettier --check .",
 		"prettier:write": "prettier --write .",
 		"checkcode": "npm run lint && npm run ts:testcompile && npx prettier --check .",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"ts:testcompile": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@novorender/api": "^0.0.19",
