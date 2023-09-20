@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 
 import { getDeviceProfile, View } from "@novorender/api";
-import { createAPI, type SceneData } from "@novorender/data-js-api";
 
 import { CardComponent } from "../../components";
-
-export const SCENE_ID = "95a89d20dd084d9486e383e131242c4c";
+import { getLoadScene } from '../../helpers';
 
 const INITIAL_CAMERA_POSITION = [10, 10, 10];
 const INITIAL_CAMERA_ROTATION = [0, 0, 0, 40];
@@ -18,23 +16,21 @@ export const MainContainer = () => {
   const initializeView = async () => {
     try {
       const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-      const gpuTier = 2;
-      const deviceProfile = getDeviceProfile(gpuTier);
+      const GPU_TIER = 2;
+      const deviceProfile = getDeviceProfile(GPU_TIER);
       const imports = await View.downloadImports({ baseUrl: "/novorender/api/" });
       const newView = new View(canvas, deviceProfile, imports);
 
       setView(newView);
-      const dataApi = createAPI({ serviceUrl: "https://data.novorender.com/api" });
-      const { url } = await dataApi.loadScene(SCENE_ID) as SceneData;
+
+      const { url } = await getLoadScene();
 
       const config = await newView.loadSceneFromURL(new URL(url));
       const { center, radius } = config.boundingSphere;
       const { activeController } = newView;
 
       activeController.autoFit(center, radius);
-
-      const controllerState = activeController.serialize();
-      activeController.init(controllerState);
+      activeController.init(activeController.serialize());
 
       newView.modifyRenderState({
         camera: {

@@ -4,26 +4,16 @@ import { Badge, Button, Card, Divider, Input, Space, notification } from 'antd';
 import {
   type RenderStateHighlightGroups,
   createNeutralHighlight,
-  View,
 } from "@novorender/api";
-import { createAPI } from "@novorender/data-js-api";
 
 import { CameraPositionTypes } from "../../containers";
-import { SCENE_ID } from "../../containers/Main/Main";
 
-type HeaderProps = {
-  projectView: View | null,
-};
-
-type ShowNotificationProps = {
-  description: string,
-  message: string,
-  type?: 'success' | 'info' | 'warning' | 'error',
-};
+import { CardComponentProps, ShowNotificationProps } from "./Card.types";
+import { getLoadScene } from "../../helpers";
 
 const { Search } = Input;
 
-export const CardComponent = ({ projectView }: HeaderProps) => {
+export const CardComponent = ({ projectView }: CardComponentProps) => {
   const [cameraPositions, setCameraPositions] = useState<CameraPositionTypes[] | []>([]);
 
   const [api, contextHolder] = notification.useNotification();
@@ -33,6 +23,7 @@ export const CardComponent = ({ projectView }: HeaderProps) => {
       message,
       description,
       placement: 'top',
+      duration: 2
     });
   };
 
@@ -84,10 +75,7 @@ export const CardComponent = ({ projectView }: HeaderProps) => {
     };
 
     try {
-      const dataApi = createAPI({
-        serviceUrl: "https://data.novorender.com/api",
-      });
-      const { db } = await dataApi.loadScene(SCENE_ID);
+      const { db } = await getLoadScene();
 
       if (!db) return;
 
@@ -125,20 +113,21 @@ export const CardComponent = ({ projectView }: HeaderProps) => {
     }
   };
 
-  const generatePositionButtons = (onClickHandler: (event: MouseEvent<HTMLElement>, position: number) => void, length: number) => {
+  const generatePositionButtons = (length: number) => {
     return Array.from({ length }, (_, index) => (
       <Badge key={`btn-${index}`} dot={!!cameraPositions[index]}>
         <Button
           block
           size="large"
           className="btn"
-          onClick={(event) => onClickHandler(event, index)}
+          onClick={(event) => onSaveScenePosition(event, index)}
         >
           Position {index + 1}
         </Button>
       </Badge>
     ));
-  }
+  };
+
   return (
     <Card style={{ width: 375, position: 'absolute', top: '5vh', left: '50%', transform: 'translateX(-50%)' }}>
       {contextHolder}
@@ -146,7 +135,7 @@ export const CardComponent = ({ projectView }: HeaderProps) => {
         <div className="buttons-wrapper">
         <Space direction="vertical" style={{ width: '100%' }}>
           <Space wrap>
-            {generatePositionButtons(onSaveScenePosition, 3)}
+            {generatePositionButtons(3)}
           </Space>
         </Space>
         </div>
